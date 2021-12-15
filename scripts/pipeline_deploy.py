@@ -17,7 +17,7 @@ def parse_response(response):
 
 def main():
 
-    with open('.github/scripts/deploy_config.yaml', 'r') as yml_file:
+    with open('.github/config/deploy_config.yaml', 'r') as yml_file:
         cfg = yaml.safe_load(yml_file)
 
     data = {
