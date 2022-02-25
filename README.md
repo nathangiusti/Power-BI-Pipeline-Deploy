@@ -1,4 +1,18 @@
 # Power-BI-Pipeline-Deploy
+Deploys a PBIX file via a pipeline to the prod workspace
+
+Requires a config in .github/config/deploy_config.yaml
+
+Sample deploy config:
+
+    My_Workspace:
+      pipeline_id: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+    My_other_workspace:
+      pipeline_id:  'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+
+PBIX file should be placed in a folder which corresponds to the key in the deploy config file. 
+
+For the sample config there would be two folders with PBIX files, My_Workspace and My_other_workspace.
 
 Sample use
 
@@ -26,3 +40,9 @@ Sample use
             env:
               CLIENT_ID: ${{ secrets.NON_PROD_SPN_ID }}
               CLIENT_SECRET: ${{ secrets.NON_PROD_SPN_SECRET }}
+
+Current todo
+- Parameterize tenant id
+- Parameterize source stage order
+- Parameterize config file
+- Create composite action
