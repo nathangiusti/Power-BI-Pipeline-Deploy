@@ -5,9 +5,9 @@ from pathlib import Path
 import requests
 import yaml
 
-tenant_id = 'cef04b19-7776-4a94-b89b-375c77a8f936'
-separator = ','
-
+#tenant_id = 'cef04b19-7776-4a94-b89b-375c77a8f936'
+#separator = ','
+tenant_id = sys.argv[3] #P3
 
 # Check whether status is successful, if so, return json value of response
 def parse_response(response):
@@ -19,7 +19,7 @@ def parse_response(response):
 def main():
 
     with open('.github/config/deploy_config.yaml', 'r') as yml_file:
-        cfg = yaml.safe_load(yml_file)
+        cfg = yaml.safe_load(yml_file)  #Loading Config file
 
     data = {
         'client_id': os.environ['CLIENT_ID'],
@@ -34,7 +34,8 @@ def main():
     token = {
         'Authorization': 'Bearer {}'.format(access_token)
     }
-    file_list = sys.argv[1].split(separator)
+    separator = sys.argv[2]   #P2
+    file_list = sys.argv[1].split(separator)  #P1
 
     for file in file_list:
         if file.endswith('.pbix') and os.path.exists(file):
@@ -57,15 +58,15 @@ def main():
             for report in response_json:
                 if report['reportType'] == 'PowerBIReport' and report['name'] == display_name:
                     body = {
-                        "sourceStageOrder": 1,
+                        "sourceStageOrder": sys.argv[4],   #P4
                         "reports": [{"sourceId": report['id']}],
                         "options": {
                             "allowOverwriteArtifact": True,
                             "allowCreateArtifact": True,
-                            "allowPurgeData": False  # Should not be needed because this is for reports but fail safe
+                            "allowPurgeData": sys.argv[6]  # Should not be needed because this is for reports but fail safe
                         },
                         "updateAppSettings": {
-                            "updateAppInTargetWorkspace": True
+                            "updateAppInTargetWorkspace": sys.argv[5] #P5
                         }
                     }
                     response = requests.request("POST", "https://api.powerbi.com/v1.0/myorg/pipelines/{}/deploy"
@@ -77,3 +78,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
