@@ -7,7 +7,7 @@ import yaml
 
 #tenant_id = 'cef04b19-7776-4a94-b89b-375c77a8f936'
 #separator = ','
-tenant_id = sys.argv[3] #P3
+
 
 # Check whether status is successful, if so, return json value of response
 def parse_response(response):
@@ -34,7 +34,8 @@ def main():
     token = {
         'Authorization': 'Bearer {}'.format(access_token)
     }
-    separator = sys.argv[2]   #P2
+    tenant_id = sys.argv[3]  #P3
+    separator = sys.argv[2]  #P2
     file_list = sys.argv[1].split(separator)  #P1
 
     for file in file_list:
@@ -42,7 +43,7 @@ def main():
             path = Path(file)
             workspace = os.path.basename(path.parent.absolute())  # Get workspace name from parent folder
             file_name = os.path.basename(file)
-
+            
             # For display name, replace _ with ' ' and remove .pbix from end
             display_name = file_name.replace('_', ' ')[:-5]
 
