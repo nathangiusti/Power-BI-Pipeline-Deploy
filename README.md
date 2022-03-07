@@ -41,8 +41,12 @@ Sample use
               CLIENT_ID: ${{ secrets.NON_PROD_SPN_ID }}
               CLIENT_SECRET: ${{ secrets.NON_PROD_SPN_SECRET }}
 
+Latest add-on 
+- Parameterized tenant id
+- Parameterized source stage order
+- Parameterized config file
+- Parameterized update-app-in-targetWorkspace
+- Parameterized allow-purgeData
+
 Current todo
-- Parameterize tenant id
-- Parameterize source stage order
-- Parameterize config file
 - Create composite action
