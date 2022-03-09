@@ -41,43 +41,7 @@ Sample use
               CLIENT_ID: ${{ secrets.NON_PROD_SPN_ID }}
               CLIENT_SECRET: ${{ secrets.NON_PROD_SPN_SECRET }}
 
-name: 'Power BI Pipeline Deploy'
-description: 'Deploy Thin PBIX file to through pipeline'
-author: 'Nathan Giusti & Ravi Yerramilli'
-inputs:
-  files:
-    description: 'Files to deploy'
-    required: true
-  seperator:
-    description: 'seperates files names/paths'
-    required: true
-    default: ","
-  tenant_id:
-    description: 'tenant id'
-    required : false
-  source-stage-order:
-    description: 'defines the staging order'
-    required: true
-    defualt: 1
-  update-app-in-targetWorkspace:
-    desription: 'sets the boolean value'
-    required: true
-    default: True 
-  allow-purgeData:
-    description: 'Should not be needed because this is for reports but fail safe'
-    required: true
-    default: False
-    
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.files }}
-    - ${{ inputs.seperator }}
-    - ${{ inputs.tenant_id}}
-    - ${{ inputs.source-stage-order}}
-    - ${{ inputs.update-app-in-targetWorkspace}}
-    - ${{ inputs.allow-purgeData}}
+
   
 
 Current todo
