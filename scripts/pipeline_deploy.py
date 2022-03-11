@@ -1,9 +1,11 @@
+from ast import arg
 import os
 import sys
 from pathlib import Path
 
 import requests
 import yaml
+import argparse
 
 #tenant_id = 'cef04b19-7776-4a94-b89b-375c77a8f936'
 #separator = ','
@@ -18,6 +20,16 @@ def parse_response(response):
 
 def main():
 
+
+    #parser = argparse.ArgumentParser()
+    #parser.add_argument("--files", nargs=1)
+    #parser.add_argument("--db_url", )
+    #parser.add_argument("--seperator", nargs=1)
+    #parser.add_argument("--tenant_id", nargs=1)
+    #parser.add_argument("--source-stage-order", nargs=1)
+    #parser.add_argument("--update-app-in-targetWorkspace", nargs=1)
+    #parser.add_argument("--seperator", nargs=1)
+
     with open('.github/config/deploy_config.yaml', 'r') as yml_file:
         cfg = yaml.safe_load(yml_file)  #Loading Config file
 
@@ -28,13 +40,13 @@ def main():
         'response_mode': 'query',
         'client_secret': os.environ['CLIENT_SECRET']
     }
-
+    tenant_id = sys.argv[3]  #P3
     resp = requests.get('https://login.microsoftonline.com/{}/oauth2/token'.format(tenant_id), data=data)
     access_token = resp.json()['access_token']
     token = {
         'Authorization': 'Bearer {}'.format(access_token)
     }
-    tenant_id = sys.argv[3]  #P3
+    
     separator = sys.argv[2]  #P2
     file_list = sys.argv[1].split(separator)  #P1
 
