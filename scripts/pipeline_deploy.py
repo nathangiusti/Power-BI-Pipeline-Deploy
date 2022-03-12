@@ -1,14 +1,13 @@
-from ast import arg
+
 import os
 import sys
 from pathlib import Path
 
 import requests
 import yaml
-import argparse
 
-#tenant_id = 'cef04b19-7776-4a94-b89b-375c77a8f936'
-#separator = ','
+
+
 
 
 # Check whether status is successful, if so, return json value of response
@@ -21,14 +20,7 @@ def parse_response(response):
 def main():
 
 
-    #parser = argparse.ArgumentParser()
-    #parser.add_argument("--files", nargs=1)
-    #parser.add_argument("--db_url", )
-    #parser.add_argument("--seperator", nargs=1)
-    #parser.add_argument("--tenant_id", nargs=1)
-    #parser.add_argument("--source-stage-order", nargs=1)
-    #parser.add_argument("--update-app-in-targetWorkspace", nargs=1)
-    #parser.add_argument("--seperator", nargs=1)
+
 
     with open('.github/config/deploy_config.yaml', 'r') as yml_file:
         cfg = yaml.safe_load(yml_file)  #Loading Config file
