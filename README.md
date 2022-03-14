@@ -1,7 +1,7 @@
 # Power-BI-Pipeline-Deploy
 Deploys a PBIX file via a pipeline to the prod workspace
 
-Requires a config in .github/config/deploy_config.yaml
+Requires a workflow config file in .github/config/deploy_config.yaml
 
 Sample deploy config:
 
@@ -40,9 +40,6 @@ Sample use
             env:
               CLIENT_ID: ${{ secrets.NON_PROD_SPN_ID }}
               CLIENT_SECRET: ${{ secrets.NON_PROD_SPN_SECRET }}
-
-
-  
 
 Current todo
 - Create composite action
