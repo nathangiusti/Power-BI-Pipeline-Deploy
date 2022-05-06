@@ -15,15 +15,15 @@ inputs:
   source-stage-order:
     description: 'defines the staging order'
     required: true
-    defualt: 1
+    default: '0'
   update-app-in-targetWorkspace:
-    desription: 'sets the boolean value'
-    required: true
-    default: True 
+    description: 'sets the boolean value'
+    required: false
+    default: 'True'
   allow-purgeData:
     description: 'Should not be needed because this is for reports but fail safe'
     required: true
-    default: False
+    default: 'False'
     
 runs:
   using: 'docker'
