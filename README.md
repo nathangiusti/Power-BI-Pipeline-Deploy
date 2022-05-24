@@ -50,9 +50,9 @@ The folder does not need to be at root.
             uses: tj-actions/changed-files@v12
             with:
               separator: ","
-              quotepath: 
+              quotepath: false
           - name: Power BI Pipeline Deploy
-            uses: ab-inbev-labs/powerbi-actions/pbix-pipeline-deploy@v1.0
+            uses: nathangiusti/Power-BI-Pipeline-Deploy@v2.4
             with:
               files: ${{ steps.changed-files.outputs.all_modified_files }}
               separator: ","
