@@ -1,40 +1,42 @@
 name: 'Power BI Pipeline Deploy'
 description: 'Deploy Thin PBIX file to through pipeline'
-author: 'Nathan Giusti & Ravi Yerramilli'
+author: 'NAZ BeerTech BI Engineering'
 inputs:
   files:
     description: 'Files to deploy'
     required: true
-  seperator:
+  config_file:
+    description: 'Config file location'
+    required: true
+  separator:
     description: 'seperates files names/paths'
     required: true
     default: ","
   tenant_id:
     description: 'tenant id'
-    required : false
-  source-stage-order:
+    required : true
+  source_stage_order:
     description: 'defines the staging order'
     required: true
-    default: '0'
-  update-app-in-targetWorkspace:
-    description: 'sets the boolean value'
+  update_app_in_target_workspace:
+    desription: 'True to update the app on deploy'
     required: false
-    default: 'True'
-  allow-purgeData:
+    default: false 
+  allow_purge_data:
     description: 'Should not be needed because this is for reports but fail safe'
-    required: true
-    default: 'False'
-    
+    required: false
+    default: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.files }}
-    - ${{ inputs.seperator }}
+    - ${{ inputs.separator }}
     - ${{ inputs.tenant_id}}
-    - ${{ inputs.source-stage-order}}
-    - ${{ inputs.update-app-in-targetWorkspace}}
-    - ${{ inputs.allow-purgeData}}
+    - ${{ inputs.source_stage_order}}
+    - ${{ inputs.update_app_in_target_workspace}}
+    - ${{ inputs.allow_purge_data}}
+    - ${{ inputs.config_file }}
   
   
   

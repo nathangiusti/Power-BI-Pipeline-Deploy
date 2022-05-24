@@ -4,6 +4,7 @@ from pathlib import Path
 import requests
 import yaml
 
+
 # Check whether status is successful, if so, return json value of response
 def parse_response(response):
     if response.status_code not in [200, 201, 202, 204]:
@@ -14,8 +15,11 @@ def parse_response(response):
         )
     return response.json()
 
+
 def main():
-    with open(".github/config/deploy_config.yaml", "r") as yml_file:
+
+    config_file = sys.argv[7]
+    with open(config_file, "r") as yml_file:
         cfg = yaml.safe_load(yml_file)  # Loading Config file
 
     data = {
@@ -31,8 +35,10 @@ def main():
     )
     access_token = resp.json()["access_token"]
     token = {"Authorization": "Bearer {}".format(access_token)}
+
     separator = sys.argv[2]  # P2
     file_list = sys.argv[1].split(separator)  # P1
+    source_stage_order = sys.argv[4]
 
     for file in file_list:
         if file.endswith(".pbix") and os.path.exists(file):
@@ -41,11 +47,24 @@ def main():
                 path.parent.absolute()
             )  # Get workspace name from parent folder
             file_name = os.path.basename(file)
+
             # For display name, replace _ with ' ' and remove .pbix from end
             display_name = file_name.replace("_", " ")[:-5]
-            # Load workspace and pipeline ids from config
-            workspace_id = cfg[workspace]["test_workspace_id"]
+
+            # Load pipeline ids from config
             pipeline_id = cfg[workspace]["pipeline_id"]
+
+            # Get the workspace id of the source workspace
+            response = requests.request(
+                "GET", f"https://api.powerbi.com/v1.0/myorg/pipelines/{pipeline_id}?$expand=stages",
+                headers=token,
+            )
+            workspace_id = ""
+            response_json = parse_response(response)
+            for stage in response_json["stages"]:
+                if stage["order"] == int(source_stage_order):
+                    workspace_id = stage["workspaceId"]
+                
             # Get all assets in target workspace
             response = requests.request(
                 "GET",
@@ -55,6 +74,7 @@ def main():
                 headers=token,
             )
             response_json = parse_response(response)["value"]
+
             for report in response_json:
                 if (
                     report["reportType"] == "PowerBIReport"
@@ -66,7 +86,8 @@ def main():
                         "options": {
                             "allowOverwriteArtifact": True,
                             "allowCreateArtifact": True,
-                            "allowPurgeData": sys.argv[6],  # Should not be needed because this is for reports but fail safe
+                            # Should not be needed because this is for reports but fail safe
+                            "allowPurgeData": sys.argv[6],
                         },
                         "updateAppSettings": {
                             "updateAppInTargetWorkspace": sys.argv[5]  # P5
