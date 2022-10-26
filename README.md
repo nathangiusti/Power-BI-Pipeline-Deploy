@@ -52,7 +52,7 @@ The folder does not need to be at root.
               separator: ","
               quotepath: false
           - name: Power BI Pipeline Deploy
-            uses: nathangiusti/Power-BI-Pipeline-Deploy@v2.4
+            uses: nathangiusti/Power-BI-Pipeline-Deploy@v2.5
             with:
               files: ${{ steps.changed-files.outputs.all_modified_files }}
               separator: ","
