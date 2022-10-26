@@ -71,7 +71,6 @@ The folder does not need to be at root.
 | tenant_id | `string` | `true` | | Your tenant id. |
 | config_file | `string` | `true` | | The location of your config file |
 | source_stage_order | `int` | `true` | | Which stage to deploy from. 0 to deploy dev to test. 1 to deploy test to prod  |
-| config_file | `string` | `true` | | The location of your config file |
 | update_app_in_target_workspace | `boolean` | `false` | `false` | True to update app in target workspace after deploy. |
 | allow_purge_data | `boolean` | `false` | `false` | Whether to delete all data from the target Power BI item (such as a report or a dashboard) when there's a schema mismatch. If this option isn't set to true when it's required for deployment, the deployment will fail. |
-
+| deploy_related_datasets | `boolean` | `false` | `false` | If true, will also try to deploy the dataset in the same workspace with the same name as the report |

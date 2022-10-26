@@ -26,6 +26,10 @@ inputs:
     description: 'Should not be needed because this is for reports but fail safe'
     required: false
     default: false
+  deploy_related_datasets:
+    description: 'Set to true to deploy datasets with the same name as changed PBIX files. For use when PBIX file contains data'
+    required: false
+    default: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -37,6 +41,7 @@ runs:
     - ${{ inputs.update_app_in_target_workspace}}
     - ${{ inputs.allow_purge_data}}
     - ${{ inputs.config_file }}
+    - ${{ inputs.deploy_related_datasets }}
   
   
   
