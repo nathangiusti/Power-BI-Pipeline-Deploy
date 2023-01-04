@@ -19,6 +19,7 @@ def main():
     client_secret = ''
     dataset_id = ''
     tenant_id = ''
+    source_stage_order = 0 # 
     data = {
         "client_id": client_id,
         "grant_type": "client_credentials",
@@ -34,7 +35,7 @@ def main():
     token = {"Authorization": "Bearer {}".format(access_token)}
 
     body = {
-        "sourceStageOrder": 1,  # P4
+        "sourceStageOrder": source_stage_order, 
         "reports": [{"sourceId": report_id }],
         "options": {
             "allowOverwriteArtifact": True,
