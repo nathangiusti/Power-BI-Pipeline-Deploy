@@ -19,7 +19,7 @@ def main():
     client_secret = ''
     dataset_id = ''
     tenant_id = ''
-    source_stage_order = 0 # 
+    source_stage_order = 0 
     data = {
         "client_id": client_id,
         "grant_type": "client_credentials",
