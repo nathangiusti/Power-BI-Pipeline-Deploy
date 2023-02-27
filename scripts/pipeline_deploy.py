@@ -53,7 +53,8 @@ def main():
             file_name = os.path.basename(file)
 
             # For display name, remove .pbix from end
-            display_name = file_name[:-5]
+            # For display name, replace _ with ' ' and remove .pbix from end
+            display_name = file_name.replace("_", " ")[:-5]
 
             # Load pipeline ids from config
             pipeline_id = cfg[workspace]["pipeline_id"]
@@ -69,7 +70,7 @@ def main():
                 if stage["order"] == int(source_stage_order):
                     workspace_id = stage["workspaceId"]
                 
-            # Get all reports in target workspace
+            # Get all assets in target workspace
             response = requests.request(
                 "GET",
                 f"https://api.powerbi.com/v1.0/myorg/groups/{workspace_id}/reports",
