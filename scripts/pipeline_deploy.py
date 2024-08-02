@@ -1,21 +1,10 @@
 import os
-import json
 import sys
 from pathlib import Path
 import requests
 import yaml
-
-
-# Check whether status is successful, if so, return json value of response
-def parse_response(response, body=None):
-    if response.status_code not in [200, 201, 202, 204]:
-        raise Exception(
-            f"ERROR: {response.status_code}: {response.content}\n"
-            f"URL:{response.url}\n"
-            f"Body:\n{json.dumps(body, indent=4)}"
-        )
-    return response.json()
-
+from fabric_items import import_fabric_item
+from http_helpers import parse_response
 
 def main():
     separator = sys.argv[2]
@@ -45,6 +34,42 @@ def main():
     token = {"Authorization": f"Bearer {access_token}"}
 
     for file in file_list:
+        if file.endswith(".pbip") and os.path.exists(file):
+            path = Path(file)
+            workspace = os.path.basename(
+                path.parent.absolute()
+            )  # Get workspace name from parent folder
+            file_name = os.path.basename(file)
+            display_name = file_name.replace("_", " ")[:-5]
+            workspace_id = cfg[workspace]["workspace_id"]
+            dir = os.path.dirname(file)
+            model_dir = [f for f in os.listdir(dir) if f.endswith((".SemanticModel"))][0]
+            model_path = os.path.join(dir, model_dir)
+
+            model_result = import_fabric_item(
+                path=model_path,
+                tenant_id=tenant_id,
+                workspace_id=workspace_id,
+                item_properties={
+                    "type": "SemanticModel",
+                    "displayName": display_name,
+                },
+            )
+
+            print(f"{display_name}.SemanticModel deployed to prod")
+
+            report_dir = [f for f in os.listdir(dir) if f.endswith((".Report"))][0]
+            report_path = os.path.join(dir, report_dir)
+
+            import_fabric_item(
+                path=report_path,
+                tenant_id=tenant_id,
+                workspace_id=workspace_id,
+                item_properties={"semanticModelId": model_result["id"]},
+            )
+
+            print(f"{display_name}.Report deployed to prod")
+            
         if file.endswith(".pbix") and os.path.exists(file):
             path = Path(file)
             workspace = os.path.basename(
